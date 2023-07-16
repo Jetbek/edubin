@@ -25,8 +25,9 @@ public class CourseEntity extends BaseEntity{
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "course")
     private List<ContentEntity> contents;
 
-    @ManyToOne
-    private UserEntity teacher;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<UserEntity> teacher;
+
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "course")

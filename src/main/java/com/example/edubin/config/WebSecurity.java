@@ -22,6 +22,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -63,9 +64,13 @@ public class WebSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .cors(Customizer.withDefaults())
+                .cors().and()
+                //                .cors(Customizer.withDefaults())
                 .authorizeHttpRequests()
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers( "images/**").permitAll()
+                .requestMatchers("/api/**").permitAll()
+//                .requestMatchers("/api/**").permitAll()
+//                .requestMatchers("/api/employee/**").permitAll()
                 .requestMatchers("/oauth2/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

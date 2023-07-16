@@ -27,6 +27,7 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
+//    private final UserService employeeService;
     private final GenerateToken generateToken;
 
 
@@ -40,7 +41,7 @@ public class EmployeeController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('ADD')) or (hasRole('SUPER_ADMIN'))")
+//    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('ADD')) or (hasRole('SUPER_ADMIN'))")
     private ApiResponse<Void> addEmployee(@RequestBody AdminUpdateEmployee adminUpdateEmployee) {
         UserEntity user = UserEntity.builder()
                 .username(adminUpdateEmployee.getUsername())
@@ -56,7 +57,8 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('DELETE')) or (hasRole('SUPER_ADMIN'))")
+    @ResponseStatus(HttpStatus.OK)
+//    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('DELETE')) or (hasRole('SUPER_ADMIN'))")
     private ResponseEntity<?> deleteEmployee(@PathVariable("id") int id) {
         employeeService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
@@ -64,7 +66,7 @@ public class EmployeeController {
 
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('UPDATE')) or (hasRole('SUPER_ADMIN'))")
+//    @PreAuthorize("(hasRole('ADMIN') and hasAuthority('UPDATE')) or (hasRole('SUPER_ADMIN'))")
     private ApiResponse<TokenDTO> updateEmployee(@PathVariable("id") int id, @RequestBody AdminUpdateEmployee adminUpdateEmployee) {
         UserEntity updatedEmployee = employeeService.updateEmployee(id, adminUpdateEmployee);
         Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(updatedEmployee, updatedEmployee.getPassword(), updatedEmployee.getAuthorities());
